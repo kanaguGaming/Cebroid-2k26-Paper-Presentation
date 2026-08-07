@@ -1,0 +1,153 @@
+:root {
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --primary: #3182ce;
+    --success: #38a169;
+    --warning: #ed8936;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    max-width: 500px;
+    width: 100%;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    color: var(--primary);
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.current-card {
+    border-top: 5px solid var(--success);
+}
+
+.next-card {
+    border-top: 5px solid var(--warning);
+}
+
+.card h2 {
+    font-size: 1rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.team-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+.topic {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+}
+
+/* Pulsing Live Indicator */
+.pulse-indicator {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--success);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--success);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(56, 161, 105, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(56, 161, 105, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(56, 161, 105, 0); }
+}
+
+.queue-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    padding: 12px 15px;
+    background-color: var(--card-bg);
+    margin-bottom: 8px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.admin-panel {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #e2e8f0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+button {
+    margin-top: 10px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #2b6cb0;
+}

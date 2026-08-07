@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Presentation Control</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #2d3748; color: white; padding: 20px; text-align: center; }
+        .admin-panel { background: #4a5568; padding: 30px; border-radius: 10px; max-width: 500px; margin: auto; }
+        button { background: #3182ce; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 8px; cursor: pointer; margin: 10px; width: 100%;}
+        button:hover { background: #2b6cb0; }
+        button:disabled { background: #a0aec0; cursor: not-allowed; }
+        .danger-btn { background: #e53e3e; }
+        .danger-btn:hover { background: #c53030; }
+    </style>
+</head>
+<body>
+    <div class="admin-panel">
+        <h1>Admin Control Panel</h1>
+        
+        <div style="margin: 20px 0; padding: 15px; background: #2d3748; border-radius: 8px;">
+            <h3>Currently on Stage:</h3>
+            <h2 id="admin-current" style="color: #48bb78;">Loading...</h2>
+        </div>
+
+        <button id="next-btn" onclick="nextPresenter()">Call Next Presenter ➔</button>
+        <button id="reset-btn" class="danger-btn" onclick="resetQueue()">Reset Event (Start from 1st)</button>
+        
+        <p id="status-msg"></p>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPvINauszXFb5yp9oi4pgTTqt4nxrOfcSI_p4JDSAxRAQkDC_7OzvwgAV-l2TzAigkLw/exec';
+        const nextBtn = document.getElementById('next-btn');
+        const statusMsg = document.getElementById('status-msg');
+
+        // தற்போதைய நிலையை அறிய
+        async function fetchState() {
+            const response = await fetch(SCRIPT_URL);
+            const data = await response.json();
+            if (data.currentIndex < data.queue.length) {
+                document.getElementById('admin-current').textContent = data.queue[data.currentIndex].name;
+            } else {
+                document.getElementById('admin-current').textContent = "Event Finished";
+                nextBtn.disabled = true;
+            }
+        }
+
+        // அடுத்த பிரசன்டரை அழைக்க
+        async function nextPresenter() {
+            nextBtn.disabled = true;
+            nextBtn.textContent = "Updating...";
+            
+            try {
+                // GET request மூலமாகவே action-ஐ அனுப்புகிறோம் (CORS error வராமல் இருக்க)
+                await fetch(`${SCRIPT_URL}?action=next`);
+                statusMsg.textContent = "Updated Successfully!";
+                statusMsg.style.color = "#48bb78";
+                setTimeout(() => { statusMsg.textContent = ""; }, 3000);
+                fetchState();
+            } catch (error) {
+                alert("Error updating!");
+            }
+            
+            nextBtn.disabled = false;
+            nextBtn.textContent = "Call Next Presenter ➔";
+        }
+
+        // ஈவென்ட்டை முதலில் இருந்து தொடங்க
+        async function resetQueue() {
+            if(confirm("Are you sure you want to reset the queue to the first team?")) {
+                await fetch(`${SCRIPT_URL}?action=reset`);
+                nextBtn.disabled = false;
+                fetchState();
+            }
+        }
+
+        fetchState();
+    </script>
+</body>
+</html>
