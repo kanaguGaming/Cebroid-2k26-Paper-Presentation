@@ -4,32 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Presentation Tracker</title>
-    <style>
-        /* முந்தைய பதிலில் கொடுத்த அதே CSS-ஐ இங்கு பயன்படுத்தவும் */
-        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; text-align: center; }
-        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .current-card { border-top: 5px solid #38a169; }
-        .next-card { border-top: 5px solid #ed8936; }
-        .queue-list { list-style: none; padding: 0; }
-        .queue-list li { background: white; padding: 10px; margin: 5px 0; border-radius: 5px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Event Live Tracker</h1>
-        <p>Real-time presentation status</p>
-
-        <div class="card current-card">
-            <h2>Live Now</h2>
-            <h3 id="current-team">Loading...</h3>
-            <p id="current-topic">...</p>
-        </div>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Presentation Tracker</title>
     <!-- Fonts from your theme[cite: 1] -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -191,7 +165,7 @@
         <div class="card current-card">
             <div class="card-content">
                 <div class="current-label">❖ On The Iron Throne ❖</div>
-                <h2 id="current-team">Loading...</h2>
+                <h2 id="current-team"></h2>
                 <p id="current-topic">Summoning the Maesters...</p>
             </div>
         </div>
@@ -253,16 +227,7 @@
     </script>
 </body>
 </html>
-        <div class="card next-card">
-            <h2>Up Next</h2>
-            <h3 id="next-team">Loading...</h3>
-        </div>
-
-        <div class="queue-section">
-            <h3>Upcoming Queue</h3>
-            <ul id="queue-list" class="queue-list"></ul>
-        </div>
-    </div>
+        
 
     <script>
         // உங்களின் Apps Script Web App URL-ஐ இங்கே பேஸ்ட் செய்யவும்
