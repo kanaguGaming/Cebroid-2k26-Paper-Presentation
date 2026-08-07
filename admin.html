@@ -3,38 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Presentation Control</title>
+    <title>Admin - The Citadel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; background: #2d3748; color: white; padding: 20px; text-align: center; }
-        .admin-panel { background: #4a5568; padding: 30px; border-radius: 10px; max-width: 500px; margin: auto; }
-        button { background: #3182ce; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 8px; cursor: pointer; margin: 10px; width: 100%;}
-        button:hover { background: #2b6cb0; }
-        button:disabled { background: #a0aec0; cursor: not-allowed; }
-        .danger-btn { background: #e53e3e; }
-        .danger-btn:hover { background: #c53030; }
+        :root {
+            --bg-dark: #050505;
+            --primary-glow: #e65c00;
+            --secondary-glow: #990000;
+            --font-heading: 'Cinzel', serif;
+            --font-body: 'Inter', sans-serif;
+            --glass-bg: rgba(15, 15, 15, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--bg-dark); 
+            color: #eaeaea; 
+            padding: 40px 20px; 
+            text-align: center; 
+        }
+
+        h1, h3 { font-family: var(--font-heading); text-transform: uppercase; }
+
+        .admin-panel { 
+            background: var(--glass-bg); 
+            padding: 40px; 
+            border-radius: 16px; 
+            max-width: 500px; 
+            margin: auto; 
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+        }
+
+        .status-box {
+            margin: 30px 0; 
+            padding: 25px; 
+            background: rgba(255,255,255,0.03); 
+            border-radius: 12px;
+            border: 1px solid rgba(230, 92, 0, 0.3);
+        }
+
+        #admin-current {
+            color: var(--primary-glow);
+            font-size: 1.8rem;
+            margin-top: 10px;
+        }
+
+        /* Styled to match the popup-register-btn[cite: 3] */
+        button { 
+            display: block;
+            width: 100%;
+            margin: 15px 0;
+            padding: 18px 28px;
+            background: linear-gradient(135deg, #7a0000 0%, var(--secondary-glow) 40%, var(--primary-glow) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(230, 92, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(230, 92, 0, 0.4);
+        }
+
+        button:disabled { 
+            background: #333; 
+            box-shadow: none;
+            color: #888;
+            cursor: not-allowed; 
+            transform: none;
+        }
+
+        .danger-btn { 
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #444;
+            box-shadow: none;
+        }
+
+        .danger-btn:hover {
+            background: rgba(153, 0, 0, 0.3);
+            border-color: var(--secondary-glow);
+        }
     </style>
 </head>
 <body>
     <div class="admin-panel">
-        <h1>Admin Control Panel</h1>
+        <h1>The Citadel Controls</h1>
         
-        <div style="margin: 20px 0; padding: 15px; background: #2d3748; border-radius: 8px;">
-            <h3>Currently on Stage:</h3>
-            <h2 id="admin-current" style="color: #48bb78;">Loading...</h2>
+        <div class="status-box">
+            <h3>Currently Speaking:</h3>
+            <div id="admin-current">Summoning...</div>
         </div>
 
-        <button id="next-btn" onclick="nextPresenter()">Call Next Presenter ➔</button>
-        <button id="reset-btn" class="danger-btn" onclick="resetQueue()">Reset Event (Start from 1st)</button>
+        <button id="next-btn" onclick="nextPresenter()">Summon Next Presenter ➔</button>
+        <button id="reset-btn" class="danger-btn" onclick="resetQueue()">Reset Timeline</button>
         
-        <p id="status-msg"></p>
+        <p id="status-msg" style="margin-top: 20px; font-style: italic;"></p>
     </div>
 
     <script>
+        // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPvINauszXFb5yp9oi4pgTTqt4nxrOfcSI_p4JDSAxRAQkDC_7OzvwgAV-l2TzAigkLw/exec';
         const nextBtn = document.getElementById('next-btn');
         const statusMsg = document.getElementById('status-msg');
 
-        // தற்போதைய நிலையை அறிய
         async function fetchState() {
             const response = await fetch(SCRIPT_URL);
             const data = await response.json();
@@ -46,29 +129,26 @@
             }
         }
 
-        // அடுத்த பிரசன்டரை அழைக்க
         async function nextPresenter() {
             nextBtn.disabled = true;
-            nextBtn.textContent = "Updating...";
+            nextBtn.textContent = "Summoning...";
             
             try {
-                // GET request மூலமாகவே action-ஐ அனுப்புகிறோம் (CORS error வராமல் இருக்க)
                 await fetch(`${SCRIPT_URL}?action=next`);
-                statusMsg.textContent = "Updated Successfully!";
-                statusMsg.style.color = "#48bb78";
+                statusMsg.textContent = "A raven has been sent (Updated Successfully).";
+                statusMsg.style.color = "#e65c00";
                 setTimeout(() => { statusMsg.textContent = ""; }, 3000);
                 fetchState();
             } catch (error) {
-                alert("Error updating!");
+                alert("Error sending the raven!");
             }
             
             nextBtn.disabled = false;
-            nextBtn.textContent = "Call Next Presenter ➔";
+            nextBtn.textContent = "Summon Next Presenter ➔";
         }
 
-        // ஈவென்ட்டை முதலில் இருந்து தொடங்க
         async function resetQueue() {
-            if(confirm("Are you sure you want to reset the queue to the first team?")) {
+            if(confirm("Are you sure you want to reset the event to the beginning?")) {
                 await fetch(`${SCRIPT_URL}?action=reset`);
                 nextBtn.disabled = false;
                 fetchState();

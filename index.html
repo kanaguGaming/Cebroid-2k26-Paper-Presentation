@@ -24,7 +24,235 @@
             <h3 id="current-team">Loading...</h3>
             <p id="current-topic">...</p>
         </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Presentation Tracker</title>
+    <!-- Fonts from your theme[cite: 1] -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --text-light: #eaeaea;
+            --primary-glow: #e65c00;
+            --secondary-glow: #990000;
+            --font-heading: 'Cinzel', serif;
+            --font-body: 'Inter', sans-serif;
+            --glass-bg: rgba(10, 10, 10, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
 
+        body { 
+            font-family: var(--font-body); 
+            background-color: var(--bg-dark); 
+            color: var(--text-light);
+            padding: 20px; 
+            text-align: center; 
+            margin: 0;
+            /* Optional: Add your dragon scale background URL here */
+            background-image: radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%);
+        }
+
+        h1, h2, h3 { 
+            font-family: var(--font-heading); 
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(230, 92, 0, 0.6);
+        }
+
+        .header-subtitle {
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-bottom: 30px;
+            letter-spacing: 1.5px;
+        }
+
+        .card { 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(10px);
+            padding: 30px 20px; 
+            border-radius: 14px; 
+            margin-bottom: 25px; 
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .current-card { 
+            border-color: rgba(230, 92, 0, 0.8);
+            box-shadow: 0 10px 30px rgba(230, 92, 0, 0.2), inset 0 0 20px rgba(153, 0, 0, 0.4);
+        }
+
+        /* Shimmer effect for the live card */
+        .current-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(230, 92, 0, 0.15) 0%, transparent 60%);
+            animation: rotateGlow 10s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .current-label {
+            font-size: 0.85rem;
+            color: var(--primary-glow);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        #current-team {
+            font-size: 2rem;
+            color: #fff;
+            margin: 10px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        #current-topic {
+            color: #ccc;
+            font-style: italic;
+        }
+
+        .next-card { 
+            border-color: rgba(255, 255, 255, 0.2); 
+        }
+
+        .queue-section {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .queue-section h3 {
+            font-size: 1.2rem;
+            color: #ddd;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .queue-list { 
+            list-style: none; 
+            padding: 0; 
+        }
+
+        .queue-list li { 
+            background: rgba(255,255,255,0.03); 
+            padding: 15px; 
+            margin: 8px 0; 
+            border-radius: 8px; 
+            border: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.95rem;
+            color: #bbb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .queue-num {
+            color: var(--primary-glow);
+            font-family: var(--font-heading);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header-title">The Battles to Come</h1>
+        <p class="header-subtitle">Live Presentation Tracker</p>
+
+        <div class="card current-card">
+            <div class="card-content">
+                <div class="current-label">❖ On The Iron Throne ❖</div>
+                <h2 id="current-team">Loading...</h2>
+                <p id="current-topic">Summoning the Maesters...</p>
+            </div>
+        </div>
+
+        <div class="card next-card">
+            <div class="card-content">
+                <div class="current-label" style="color: #aaa;">Up Next</div>
+                <h3 id="next-team">Loading...</h3>
+            </div>
+        </div>
+
+        <div class="queue-section">
+            <h3>The Remaining Queue</h3>
+            <ul id="queue-list" class="queue-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPvINauszXFb5yp9oi4pgTTqt4nxrOfcSI_p4JDSAxRAQkDC_7OzvwgAV-l2TzAigkLw/exec';
+
+        async function fetchQueue() {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                const data = await response.json();
+                updateUI(data.queue, data.currentIndex);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        function updateUI(queue, index) {
+            const queueList = document.getElementById('queue-list');
+            queueList.innerHTML = '';
+
+            if (index < queue.length) {
+                document.getElementById('current-team').textContent = queue[index].name;
+                document.getElementById('current-topic').textContent = queue[index].topic;
+            } else {
+                document.getElementById('current-team').textContent = "The Realm is at Peace";
+                document.getElementById('current-topic').textContent = "All presentations concluded.";
+            }
+
+            if (index + 1 < queue.length) {
+                document.getElementById('next-team').textContent = queue[index + 1].name;
+            } else {
+                document.getElementById('next-team').textContent = "None";
+            }
+
+            for (let i = index + 2; i < queue.length; i++) {
+                let li = document.createElement('li');
+                li.innerHTML = `<span class="queue-num">${i + 1}.</span> ${queue[i].name} — ${queue[i].topic}`;
+                queueList.appendChild(li);
+            }
+        }
+
+        fetchQueue();
+        setInterval(fetchQueue, 5000); 
+    </script>
+</body>
+</html>
         <div class="card next-card">
             <h2>Up Next</h2>
             <h3 id="next-team">Loading...</h3>
