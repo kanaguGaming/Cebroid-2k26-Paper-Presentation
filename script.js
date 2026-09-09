@@ -1,10 +1,18 @@
 // Sample Data: You can replace this with your actual participant list
 const presentationQueue = [
-    { id: 1, name: "Team Orion", topic: "AI-driven Occupational Classification" },
-    { id: 2, name: "Alpha Squad", topic: "Decentralized Civic Reporting Platforms" },
-    { id: 3, name: "Circuit Breakers", topic: "Standalone Crash Detection Systems" },
-    { id: 4, name: "Byte Force", topic: "IoT Smart Home Architectures" },
-    { id: 5, name: "Data Miners", topic: "Predictive Analysis in Cloud Computing" }
+    { id: 1, name: "Deventur", topic: "AI based Advisory and Farmer support system" },
+    { id: 2, name: "AEC", topic: "STARLINK-The internet from space" },
+    { id: 3, name: "NOVASTRO", topic: "Drone communication" },
+    { id: 4, name: "spray vision", topic: "intelligent pesticide sprinkling system determined by the infection level of a plant " },
+    { id: 5, name: "Tech Orbit", topic: "Ai urban flood prediction and evacuation system" },
+    { id: 6, name: "TBC", topic: "To Be Confirmed" },
+    { id: 7, name: "TBC", topic: "To Be Confirmed" },
+    { id: 8, name: "TBC", topic: "To Be Confirmed" },
+    { id: 9, name: "TBC", topic: "To Be Confirmed" },
+    { id: 10, name: "TBC", topic: "To Be Confirmed" },
+    { id: 11, name: "TBC", topic: "To Be Confirmed" },
+    { id: 12, name: "TBC", topic: "To Be Confirmed" },
+    { id: 13, name: "TBC", topic: "To Be Confirmed" }
 ];
 
 // State variable to track who is currently on stage
